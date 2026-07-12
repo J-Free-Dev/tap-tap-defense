@@ -143,26 +143,18 @@ speed_multiplier = 1.0 + (current_wave * 0.05)
 
 ---
 
-## What's Next - Remaining Milestone 2 Features
+## What's Next
 
-### High Priority (Core Milestone 2) [FUTURE]
-- **Obstacles System** [FUTURE]
-  - Destructible blocks in playfield
-  - Enemies navigate around them
-  - Can be destroyed by bullets
-  - Centipede-style gameplay element
-
-- **Additional Enemy Types** [FUTURE]
-  - Speedy enemy (fast straight movement)
-  - Tank enemy (slow, multiple hits to destroy)
-  - Update wave progression formulas for 4 enemy types
-
-- **Power-ups System** [FUTURE]
+### High Priority (Core Milestone) 
+- **Power-ups System** [NEXT]
   - Power-up drops from enemies
   - Rapid fire power-up
   - Multi-shot power-up
   - Speed boost power-up
   - Pickup detection and effects
+- - **Player Life/Enemy Damage Redesign** [NEXT]
+  - Change damage system to damage over time by living enemies instead of 1 damage for each enemy that gets by.
+  - Give player a health bar instead of 3 lives rules
 
 ### Medium Priority (Polish & Balance) [FUTURE]
 - **Difficulty Balancing** [IN PROGRESS - needs playtesting]
@@ -183,56 +175,16 @@ speed_multiplier = 1.0 + (current_wave * 0.05)
 
 ---
 
-## Milestone 3 Preview [FUTURE]
-
-Based on design doc v1.0, after Milestone 2 completion:
-- Visual effects (particles, screen shake) [FUTURE]
-- Audio system (music, SFX) [FUTURE]
-- Settings menu (volume, controls) [FUTURE]
-- Advanced UI polish [FUTURE]
-- Mobile optimization [FUTURE]
-- Browser export for itch.io [FUTURE]
-- Sprite assets (replace ColorRect placeholders) [FUTURE]
-
----
-
 ## Testing Notes
-
-### What Works Well
-- Wave system provides good pacing with player-controlled progression
-- Difficulty scaling feels smooth and progressive
-- Enemy variety adds challenge (zigzag enemies harder to hit)
-- Score separation (spendable vs total) ready for future upgrade shop
-- UI flow is clean and functional
 
 ### Known Issues / Observations
 - All visuals are ColorRect placeholders (by design, sprites come later)
-- No obstacles yet (Milestone 2 feature)
-- No power-ups yet (Milestone 2 feature)
 - Only 2 enemy types so far (plan for 4+)
 
 ### Balance Observations
 - Monitor if waves get too hard too quickly
 - Watch for spawn rate becoming overwhelming
 - Check if zigzag enemies feel appropriately rewarding (20 vs 10 points)
-
----
-
-## Development Notes
-
-### Lessons Learned
-- Wave-based progression creates natural break points for player
-- Count-based waves better than time-based for strategic play
-- Dynamic enemy configuration system scales well for multiple types
-- Single enemy scene with configurable behavior is efficient
-- Player-controlled wave transitions prepare well for upgrade shop
-
-### Next Session Priorities
-1. Implement obstacles system (major gameplay addition)
-2. Add 1-2 more enemy types (Speedy and/or Tank)
-3. Update enemy weighting for 4 enemy types
-4. Playtest and balance difficulty curve
-5. Begin power-up system if time allows
 
 ---
 
@@ -244,22 +196,3 @@ Based on design doc v1.0, after Milestone 2 completion:
 - Movement patterns extensible (easy to add new types)
 - Wave difficulty formulas easily adjustable
 - UI separation from game logic maintained
-
----
-
-## Performance Considerations
-
-- Current: Spawning works well, no lag observed
-- Future: Monitor performance with obstacles + enemies + bullets
-- Consider max enemies on screen cap if needed
-- Mobile testing will be critical for spawn rates
-
----
-
-## Questions for Future Sessions
-
-1. Should obstacles be static or have patterns?
-2. Power-up drop rate - every X enemies or random chance?
-3. Boss waves - special enemy or just harder configurations?
-4. Upgrade shop - between waves only or also main menu?
-5. Should there be a difficulty selection (easy/normal/hard modes)?
