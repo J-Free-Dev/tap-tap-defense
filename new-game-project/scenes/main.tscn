@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dnynl41wkafvl"]
+[gd_scene format=3 uid="uid://dnynl41wkafvl"]
 
 [ext_resource type="Script" uid="uid://dg8qbgoy52qvq" path="res://scripts/game_manager.gd" id="1_0wfyh"]
 [ext_resource type="Script" uid="uid://bbxjqfskc1aen" path="res://scripts/turret.gd" id="1_o5qli"]
@@ -8,19 +8,25 @@
 script/source = "extends Button
 "
 
-[node name="Main" type="Node2D"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hpbg"]
+bg_color = Color(0.15, 0.15, 0.15, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hpfill"]
+bg_color = Color(0.85, 0.1, 0.1, 1)
+
+[node name="Main" type="Node2D" unique_id=879571051]
 script = ExtResource("1_0wfyh")
 
-[node name="PlayArea" type="ColorRect" parent="."]
+[node name="PlayArea" type="ColorRect" parent="." unique_id=551547257]
 offset_right = 1080.0
 offset_bottom = 1600.0
 color = Color(0.0377237, 8.38678e-06, 0.215617, 1)
 
-[node name="Turret" type="Node2D" parent="."]
+[node name="Turret" type="Node2D" parent="." unique_id=78940740]
 position = Vector2(540, 1820)
 script = ExtResource("1_o5qli")
 
-[node name="TurretBarrel" type="ColorRect" parent="Turret"]
+[node name="TurretBarrel" type="ColorRect" parent="Turret" unique_id=678829162]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -33,7 +39,7 @@ grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(7, 70)
 
-[node name="TurretBase" type="ColorRect" parent="Turret"]
+[node name="TurretBase" type="ColorRect" parent="Turret" unique_id=860792343]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -49,16 +55,16 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 color = Color(0, 0, 0, 1)
 
-[node name="Enemies" type="Node2D" parent="."]
+[node name="Enemies" type="Node2D" parent="." unique_id=50718757]
 position = Vector2(0, -2)
 
-[node name="Bullets" type="Node2D" parent="."]
+[node name="Bullets" type="Node2D" parent="." unique_id=1579876976]
 
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="." unique_id=482964671]
 process_mode = 3
 script = ExtResource("3_sugp2")
 
-[node name="ScoreLabel" type="Label" parent="UI"]
+[node name="ScoreLabel" type="Label" parent="UI" unique_id=1451646720]
 offset_left = 20.0
 offset_top = 20.0
 offset_right = 60.0
@@ -66,13 +72,7 @@ offset_bottom = 43.0
 theme_override_font_sizes/font_size = 32
 text = "Score: 0"
 
-[node name="LivesContainer" type="HBoxContainer" parent="UI"]
-offset_left = 20.0
-offset_top = 80.0
-offset_right = 60.0
-offset_bottom = 120.0
-
-[node name="PauseButton" type="Button" parent="UI"]
+[node name="PauseButton" type="Button" parent="UI" unique_id=792553742]
 offset_left = 116.0
 offset_top = 1693.0
 offset_right = 266.0
@@ -81,7 +81,7 @@ theme_override_font_sizes/font_size = 32
 text = "Pause"
 script = SubResource("GDScript_sugp2")
 
-[node name="GameOverPanel" type="Panel" parent="UI"]
+[node name="GameOverPanel" type="Panel" parent="UI" unique_id=1233496286]
 visible = false
 anchors_preset = 8
 anchor_left = 0.5
@@ -95,7 +95,7 @@ offset_bottom = -44.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ColorRect" type="ColorRect" parent="UI/GameOverPanel"]
+[node name="ColorRect" type="ColorRect" parent="UI/GameOverPanel" unique_id=780430595]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -104,7 +104,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.917647)
 
-[node name="GameOverContainer" type="VBoxContainer" parent="UI/GameOverPanel"]
+[node name="GameOverContainer" type="VBoxContainer" parent="UI/GameOverPanel" unique_id=1886050252]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -118,25 +118,25 @@ offset_bottom = 280.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="GameOverLabel" type="Label" parent="UI/GameOverPanel/GameOverContainer"]
+[node name="GameOverLabel" type="Label" parent="UI/GameOverPanel/GameOverContainer" unique_id=1083368100]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_font_sizes/font_size = 48
 text = "GAME OVER"
 
-[node name="MainMenuButton" type="Button" parent="UI/GameOverPanel/GameOverContainer"]
+[node name="MainMenuButton" type="Button" parent="UI/GameOverPanel/GameOverContainer" unique_id=1828812841]
 layout_mode = 2
 text = "Main Menu
 "
 
-[node name="WaveCompletePanel" type="Panel" parent="UI"]
+[node name="WaveCompletePanel" type="Panel" parent="UI" unique_id=1630087181]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="WaveScoreLabel" type="Label" parent="UI/WaveCompletePanel"]
+[node name="WaveScoreLabel" type="Label" parent="UI/WaveCompletePanel" unique_id=1928821503]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -152,7 +152,7 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 32
 text = "Next Wave:"
 
-[node name="TotalScoreLabel" type="Label" parent="UI/WaveCompletePanel"]
+[node name="TotalScoreLabel" type="Label" parent="UI/WaveCompletePanel" unique_id=1419999772]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -168,7 +168,7 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 32
 text = "Total Score: 0"
 
-[node name="NextWaveButton" type="Button" parent="UI/WaveCompletePanel"]
+[node name="NextWaveButton" type="Button" parent="UI/WaveCompletePanel" unique_id=1376414749]
 custom_minimum_size = Vector2(200, 60)
 layout_mode = 1
 anchors_preset = 8
@@ -185,7 +185,7 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 32
 text = "Next Wave"
 
-[node name="WaveLabel" type="Label" parent="UI"]
+[node name="WaveLabel" type="Label" parent="UI" unique_id=1241299339]
 custom_minimum_size = Vector2(200, 60)
 offset_left = 849.0
 offset_top = 23.0
@@ -193,3 +193,98 @@ offset_right = 1049.0
 offset_bottom = 83.0
 theme_override_font_sizes/font_size = 32
 text = "Wave: 0"
+
+[node name="HealthBar" type="ProgressBar" parent="UI" unique_id=1558431029]
+offset_left = 20.0
+offset_top = 80.0
+offset_right = 420.0
+offset_bottom = 124.0
+theme_override_styles/background = SubResource("StyleBoxFlat_hpbg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_hpfill")
+
+[node name="PowerUps" type="Node2D" parent="." unique_id=2063731062]
+
+[node name="PowerUpDisplay" type="HBoxContainer" parent="UI"]
+offset_left = 780.0
+offset_top = 1693.0
+offset_right = 1060.0
+offset_bottom = 1843.0
+theme_override_constants/separation = 10
+
+[node name="Slot0" type="VBoxContainer" parent="UI/PowerUpDisplay"]
+layout_mode = 2
+
+[node name="Icon" type="ColorRect" parent="UI/PowerUpDisplay/Slot0"]
+layout_mode = 2
+custom_minimum_size = Vector2(70, 70)
+color = Color(0.3, 0.3, 0.3, 1)
+
+[node name="TypeLabel" type="Label" parent="UI/PowerUpDisplay/Slot0/Icon"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LevelLabel" type="Label" parent="UI/PowerUpDisplay/Slot0"]
+layout_mode = 2
+custom_minimum_size = Vector2(70, 30)
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+
+[node name="Slot1" type="VBoxContainer" parent="UI/PowerUpDisplay"]
+layout_mode = 2
+
+[node name="Icon" type="ColorRect" parent="UI/PowerUpDisplay/Slot1"]
+layout_mode = 2
+custom_minimum_size = Vector2(70, 70)
+color = Color(0.3, 0.3, 0.3, 1)
+
+[node name="TypeLabel" type="Label" parent="UI/PowerUpDisplay/Slot1/Icon"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LevelLabel" type="Label" parent="UI/PowerUpDisplay/Slot1"]
+layout_mode = 2
+custom_minimum_size = Vector2(70, 30)
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1
+
+[node name="Slot2" type="VBoxContainer" parent="UI/PowerUpDisplay"]
+layout_mode = 2
+
+[node name="Icon" type="ColorRect" parent="UI/PowerUpDisplay/Slot2"]
+layout_mode = 2
+custom_minimum_size = Vector2(70, 70)
+color = Color(0.3, 0.3, 0.3, 1)
+
+[node name="TypeLabel" type="Label" parent="UI/PowerUpDisplay/Slot2/Icon"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 18
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LevelLabel" type="Label" parent="UI/PowerUpDisplay/Slot2"]
+layout_mode = 2
+custom_minimum_size = Vector2(70, 30)
+theme_override_font_sizes/font_size = 20
+horizontal_alignment = 1

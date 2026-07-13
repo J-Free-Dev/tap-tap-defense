@@ -14,6 +14,23 @@ This document should also be iterative, meaning we should be looking for pattern
 
 ---
 
+## Feature Backlog (Reference Only — Asana is source of truth)
+
+This is a non-authoritative list of features on the roadmap, tracked and sequenced in Asana. It exists here only so architectural decisions during the current milestone don't paint us into a corner against known future work. **This is not a plan.** Never expand this list into tasks, phases, or design detail — that only happens once a feature becomes the active "Next Milestone" in design_doc.md.
+
+- Health bar
+- Enemy damage rework (attack health instead of lives)
+- All Enemies: Teleport, Slow Tank, updated Zigzag, Shield
+- Bosses: Boss1, Boss2, (stretch) Boss3+
+- Persistent Progress: Tower Rewards
+- Power-Ups: Double Shot, Bouncing Ball, Laser (pierces multiple enemies), Slow Turret Rotation
+- Art Update
+- Music
+- Menu
+- Combat (stretch: multiple combat)
+
+---
+
 ## Design Document Maintenance
 
 The project uses a single living design document at `/design/design_doc.md` that is updated after each milestone completion.
@@ -22,6 +39,10 @@ The project uses a single living design document at `/design/design_doc.md` that
 The design_doc.md contains two main sections:
 1. **Current State / Completed Features** - Everything that has been implemented and is working
 2. **Next Milestone** - The single immediate task we're working on next
+
+### Session Notes
+
+At the end of each working session, create a new dated file in `/design/session_notes/` (e.g. `session_notes_7-12-26.md`) following the same structure as the most recent existing file in that folder. Session notes are a running log — never overwrite a prior session's file, always add a new one. This keeps a full history of progress/decisions without cluttering design_doc.md, which only ever reflects the current state.
 
 ### When to Update the Design Document
 Update the design document when:

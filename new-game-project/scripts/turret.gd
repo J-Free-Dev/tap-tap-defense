@@ -9,7 +9,17 @@ extends Node2D
 @export var max_angle: float = 60.0  # Degrees - right limit
 
 # Bullet settings
-var bullet_scene = preload("res://scenes/Bullet.tscn")  # Load the bullet scene
+var bullet_scene = preload("res://scenes/bullet.tscn")  # Load the bullet scene
+
+# Double Shot power-up state - set by game_manager based on equipped level
+@export var shot_count: int = 1  # Number of bullets fired per tap
+@export var shot_spread_degrees: float = 8.0  # Angular spread between simultaneous bullets
+
+# Laser power-up state - set by game_manager based on equipped level
+@export var pierce_count: int = 1  # Number of enemies each bullet can hit before being destroyed
+
+# Bouncing Ball power-up state - set by game_manager based on equipped level
+@export var bounce_count: int = 0  # Number of times each bullet can bounce off the left/right edges
 
 # Internal state
 var rotation_direction: int = 1  # 1 for clockwise, -1 for counter-clockwise
@@ -58,21 +68,29 @@ func reverse_direction():
 	rotation_direction *= -1
 
 func shoot():
-	# Spawn a bullet at the turret barrel's position and angle
+	# Spawn one bullet per shot_count (Double Shot power-up), fanned around the barrel's aim
 	if bullets_container == null:
 		return
 
-	# Create new bullet instance
-	var bullet = bullet_scene.instantiate()
+	var barrel_length = 100.0  # Barrel is 100 pixels tall, so tip is 100 pixels from pivot
 
-	# Calculate barrel tip position (where bullet should spawn)
-	# Barrel is 100 pixels tall, so tip is 100 pixels from pivot in the direction it's pointing
-	var barrel_length = 100.0
-	var spawn_offset = Vector2(sin(barrel.rotation), -cos(barrel.rotation)) * barrel_length
-	bullet.position = global_position + spawn_offset
+	for angle in _get_shot_angles():
+		var bullet = bullet_scene.instantiate()
+		var spawn_offset = Vector2(sin(angle), -cos(angle)) * barrel_length
+		bullet.position = global_position + spawn_offset
+		bullet.set_direction(angle)
+		bullet.pierce_count = pierce_count
+		bullet.bounces_remaining = bounce_count
+		bullets_container.add_child(bullet)
 
-	# Set bullet direction to match barrel rotation
-	bullet.set_direction(barrel.rotation)
+func _get_shot_angles() -> Array:
+	# Returns one angle per bullet to fire, evenly fanned around the barrel's current rotation
+	if shot_count <= 1:
+		return [barrel.rotation]
 
-	# Add bullet to the scene
-	bullets_container.add_child(bullet)
+	var angles: Array = []
+	var total_spread = shot_spread_degrees * (shot_count - 1)
+	var start_angle = barrel.rotation - deg_to_rad(total_spread / 2.0)
+	for i in range(shot_count):
+		angles.append(start_angle + deg_to_rad(shot_spread_degrees * i))
+	return angles

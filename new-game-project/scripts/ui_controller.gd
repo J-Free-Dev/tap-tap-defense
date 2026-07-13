@@ -1,11 +1,11 @@
 extends CanvasLayer
 
-# UI Controller - manages score display and lives display
-# Connected to: UI CanvasLayer node, references ScoreLabel and LivesContainer nodes
+# UI Controller - manages score display and health display
+# Connected to: UI CanvasLayer node, references ScoreLabel and HealthBar nodes
 # Listens to: game_manager signals (score_changed, health_changed)
 
 var score_label: Label  # Reference to ScoreLabel
-var lives_container: HBoxContainer  # Reference to LivesContainer
+var health_bar: ProgressBar  # Reference to HealthBar
 var pause_button: Button  # Reference to PauseButton
 var game_over_panel: Panel  # Reference to GameOverPanel
 var main_menu_button: Button  # Reference to MainMenuButton
@@ -16,9 +16,11 @@ var total_score_label: Label  # Reference to TotalScoreLabel
 var next_wave_button: Button  # Reference to NextWaveButton
 var game_manager: Node2D  # Reference to game manager
 
-# Heart/life display settings
-var heart_size: Vector2 = Vector2(40, 40)  # Size of each heart
-var heart_color: Color = Color.RED  # Color of hearts
+# Power-up loadout display - 3 slots showing equipped power-up type + level
+var powerup_slot_icons: Array = []  # ColorRect per slot
+var powerup_slot_type_labels: Array = []  # Label per slot (overlaid on icon)
+var powerup_slot_level_labels: Array = []  # Label per slot (below icon)
+const POWERUP_EMPTY_SLOT_COLOR = Color(0.3, 0.3, 0.3, 1)
 
 # Pause state
 var is_paused: bool = false
@@ -28,7 +30,7 @@ func _ready():
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	# Get references to UI elements
 	score_label = get_node("ScoreLabel")
-	lives_container = get_node("LivesContainer")
+	health_bar = get_node("HealthBar")
 	pause_button = get_node("PauseButton")
 	game_over_panel = get_node("GameOverPanel")
 	main_menu_button = get_node("GameOverPanel/GameOverContainer/MainMenuButton")
@@ -38,10 +40,17 @@ func _ready():
 	total_score_label = get_node("WaveCompletePanel/TotalScoreLabel")
 	next_wave_button = get_node("WaveCompletePanel/NextWaveButton")
 
+	# Get references to the 3 power-up loadout slots
+	for i in range(3):
+		var slot_path = "PowerUpDisplay/Slot" + str(i)
+		powerup_slot_icons.append(get_node(slot_path + "/Icon"))
+		powerup_slot_type_labels.append(get_node(slot_path + "/Icon/TypeLabel"))
+		powerup_slot_level_labels.append(get_node(slot_path + "/LevelLabel"))
+
 	if score_label == null:
 		push_error("ScoreLabel not found!")
-	if lives_container == null:
-		push_error("LivesContainer not found!")
+	if health_bar == null:
+		push_error("HealthBar not found!")
 	if pause_button == null:
 		push_error("PauseButton not found!")
 	else:
@@ -78,6 +87,12 @@ func _ready():
 		push_error("Game manager not found!")
 		return
 
+	# Configure health bar range to match game manager's max health
+	if health_bar:
+		health_bar.min_value = 0
+		health_bar.max_value = game_manager.max_health
+		health_bar.value = game_manager.max_health
+
 	# Connect to game manager signals
 	game_manager.score_changed.connect(_on_score_changed)
 	game_manager.total_score_changed.connect(_on_total_score_changed)
@@ -85,6 +100,7 @@ func _ready():
 	game_manager.game_over.connect(_on_game_over)
 	game_manager.wave_started.connect(_on_wave_started)
 	game_manager.wave_complete.connect(_on_wave_complete)
+	game_manager.powerup_loadout_changed.connect(_on_powerup_loadout_changed)
 
 func _on_score_changed(new_score: int):
 	# Update score label (spendable score)
@@ -97,16 +113,28 @@ func _on_total_score_changed(new_total_score: int):
 		total_score_label.text = "Total Score: " + str(new_total_score)
 
 func _on_health_changed(new_health: int):
-	# Clear existing hearts
-	for child in lives_container.get_children():
-		child.queue_free()
+	# Update health bar to reflect current player health
+	if health_bar:
+		health_bar.value = new_health
 
-	# Create heart ColorRects for remaining lives
-	for i in range(new_health):
-		var heart = ColorRect.new()
-		heart.custom_minimum_size = heart_size
-		heart.color = heart_color
-		lives_container.add_child(heart)
+func _on_powerup_loadout_changed():
+	# Refresh the 3 loadout slots to reflect currently equipped power-up types/levels
+	if game_manager == null:
+		return
+
+	var equipped_types = game_manager.equipped_powerups.keys()  # Insertion order = equip order
+
+	for i in range(3):
+		if i < equipped_types.size():
+			var type = equipped_types[i]
+			var level = game_manager.equipped_powerups[type]
+			powerup_slot_icons[i].color = game_manager.powerup_colors[type]
+			powerup_slot_type_labels[i].text = game_manager.powerup_short_labels[type]
+			powerup_slot_level_labels[i].text = "Lv" + str(level)
+		else:
+			powerup_slot_icons[i].color = POWERUP_EMPTY_SLOT_COLOR
+			powerup_slot_type_labels[i].text = ""
+			powerup_slot_level_labels[i].text = ""
 
 func _on_pause_pressed():
 	# Toggle pause state
